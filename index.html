@@ -1,1 +1,88 @@
+<!-- Coin Flip HTML -->
+<!DOCTYPE html>
 
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+    <title>Trivia Game</title>
+
+    <!-- Added link to the jQuery Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+
+<body>
+	<!-- Jumbotron for Title -->
+	<div class="jumbotron">
+	    <h2 class="text-center"><strong>State Captial Trivia Game</strong></h2>
+	    <br>
+	    <h4 class="text-center">A city and state will be dislayed.  If the city is the capital of the state answer True, otherwise answer False.</h4>
+	    <h4 class="text-center">You will have 10 seconds to answer a question. If no answer is entered within 10 seconds the answer will be counted as an incorrect answer.  The game will end after 60 seconds.</h4>
+	</div>
+
+    <br>
+
+	<!-- Target score, user score, wins-losses, and crystals container -->
+	<div class="container">
+	    <div class="row">
+
+	    	<!-- Correct-Incorrect answer Panel -->
+	        <div class="col-md-2">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <h2 class="panel-title"><strong>Answers</strong></h2>
+	                </div>
+	                <div class="panel-body">
+	                    <h4 id="correct">Correct: 0</h4>
+	                    <h4 id="incorrect">Incorrect: 0</h4>
+	                </div>
+	            </div>
+	        </div>   
+
+	        <!-- Target Score Panel -->
+	        <div class="col-md-6">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <h2 class="panel-title"><strong>Trivia Question</strong></h2>
+	                </div>
+	                <div class="panel-body">
+	                    <h4 id="trivia-question"></h4>
+	    				<button id="btn-true" class="btn btn-primary" value="1"><h4>True </h4></button>
+	    				<button id="btn-false" class="btn btn-primary" value="0"><h4>False</h4></button>
+	                </div>
+	            </div>
+	        </div>
+	   
+	        <!-- Game timer Panel -->
+	        <div class="col-md-2">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <h2 class="panel-title"><strong>Time Remaining</strong></h2>
+	                </div>
+	                <div class="panel-body">
+	                    <h4 id="countdown">60 Seconds</h4>
+	                </div>
+	            </div>
+	        </div> 
+
+	        <!-- Correct-Incorrect answer Panel -->
+	        <div class="col-md-2">
+	        	<div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <h2 class="panel-title"><strong>Game Status</strong></h2>
+	                </div>
+	                <div class="panel-body">
+	                    <h4 id="status"></h4>
+	                    <button id="btn-start" class="btn btn-primary"><h4>Start Game</h4></button>
+	                </div>
+	            </div>
+	        </div>   
+	    </div>
+	</div>
+
+  <!-- Added link to the game.js -->
+  <script type="text/javascript" src="assets\javascript\app.js"></script>
+  </body>
+</html>

@@ -58,8 +58,7 @@ var triviaGame = {
 	selectedState: null,
 	questionTrueFalse: null,
 	questionTimeout: null,
-	gameTimeout: null,
-	numSeconds: null,
+	numSeconds: 10,
 
 	// Generate random # between min and max values
 	randomIntFromInterval: function(min ,max) 
@@ -67,44 +66,49 @@ var triviaGame = {
 	    return Math.floor(Math.random() * (max-  min + 1) + min);
 	},
 
-	//  Decrement and display time remaining, when seconds = 0 clear interval, prompt user that game is over.
 	decrementTimer: function() {
-		this.numSeconds--;
-	    $("#countdown").html(this.numSeconds + " Seconds");
 
+		console.log("this.numSeconds: " + this.numSeconds);
+
+	    //  Decrease number by one.
+	    this.numSeconds--;
+
+	    //  Show the number in the #show-number tag.
+	    $("#countdown").html("Seconds Remaining: " + this.numSeconds);
+
+	    //  Once number hits zero...
 	    if (this.numSeconds === 0) {
-	    	clearInterval(this.gameTimeout);
-	    	clearTimeout(this.questionTimeout);
-	    	
-	    	// Change game status to "Game Over" and siabled True and False buttons
-	    	$("#status").html("Game Over");
-  			$("#btn-true").prop('disabled', true);
-	    	$("#btn-false").prop('disabled', true);
+
+	        //  ...run the stop function.
+	    	clearInterval(this.intervalId);
+
+	        //  Alert the user that time is up.
+	        alert("Time Up!");
+
+	        this.startGame();
 	    }
     },
 
-    //  Set Correct and Incorrect values to 0 and display, set game total time to 60 seconds and start timer, display first question
   	startGame: function() {
 		this.numCorrect = 0;
 		this.numIncorrect = 0;
-		this.numSeconds = 60;
+		this.numSeconds = 10;
 
-		$("#correct").html("Correct: " + this.numCorrect);
-		$("#incorrect").html("Incorrect: " + this.numIncorrect);
-		$("#countdown").html(this.numSeconds + " Seconds");
-		$("#status").html("Game Running");
-  		$("#btn-true").prop('disabled', false);
-	    $("#btn-false").prop('disabled', false);
+console.log("this.numSeconds = " + this.numSeconds);
+this.numSeconds--;
+console.log("this.numSeconds = " + this.numSeconds);
 
-		this.gameTimeout = setInterval(() => this.decrementTimer(), 1000);
+		this.intervalId = setInterval(this.decrementTimer, 1000);
 		this.nextQuestion();
 	},  
 
-	// Randomly select and display next trivia question with either capital city or largest city, and start question timer 
   	nextQuestion: function() {
 
+	  	// Capture trivia game word keys
 	    var objKeys = Object.keys(this.triviaQuestions);
-	    this.selectedState = objKeys[this.randomIntFromInterval(0, objKeys.length-1)];
+
+	    // Randonly select next trivia state
+	    this.selectedState = objKeys[this.randomIntFromInterval(1, objKeys.length)];
 	    this.questionTrueFalse = this.randomIntFromInterval(0,1);
 
 	    if (this.questionTrueFalse) {
@@ -113,42 +117,37 @@ var triviaGame = {
 		else {
 			$("#trivia-question").html("The capital city of " + this.triviaQuestions[this.selectedState].state + " is " + this.triviaQuestions[this.selectedState].largestCity);
 		}
-	   	this.questionTimeout = setTimeout(() => this.questionTimedOut(), 10000);
+
+		console.log("Capital or Largest:", this.questionTrueFalse);
+
+	   	// this.questionTimeout = setTimeout(this.timedOut, 3000);
 	},	
 
-
-	// Clear question timeout, increment and display Incorrect answers,  and display next question
-	questionTimedOut: function() {
+	timedOut: function() {
 		clearTimeout(this.questionTimeout);
-		$("#incorrect").html("Incorrect: " + ++this.numIncorrect);
+		this.numIncorrect++;	  
+		$("#incorrect").html("Incorrect: " + this.numIncorrect);
 	    this.nextQuestion(); 
 	},
 
-	// True or Fasle button clicked
-	// Clear question timeout, check if answer is correct or incorrect, increment and display numCorrect or numIncorrect, and display next question
   	checkGameStatus: function(buttonVal) {
 
-		clearTimeout(this.questionTimeout);	
-
+	    // Check if user numWins or losses
 	    if (buttonVal == this.questionTrueFalse) {
-	        $("#correct").html("Correct: " + ++this.numCorrect);
+	        this.numCorrect++;
+	        $("#correct").html("Correct: " + this.numCorrect);
 	        this.nextQuestion();
 	    }
-	    else {  
-	        $("#incorrect").html("Incorrect: " + ++this.numIncorrect);
+	    else {
+	        this.numIncorrect++;	  
+	        $("#incorrect").html("Incorrect: " + this.numIncorrect);
 	       	this.nextQuestion();
 	    }
   	},		
-
-  	// Disabled True and False buttons
-  	initGame: function() {
-  		$("#btn-true").prop('disabled', true);
-	    $("#btn-false").prop('disabled', true);
-  	}
 };
 
-// Start game with True and False buttons disabled
-triviaGame.initGame();
+// Initialize when page loads
+triviaGame.startGame();
 
 // When page is loaded
 $(document).ready(function() {
@@ -159,11 +158,6 @@ $(document).ready(function() {
  		// Check if game was won, lost or still in play
   		triviaGame.checkGameStatus($(this).attr("value"));  
 	});
-
-	// Process mouse click on Start Game button
-	$(document).on("click", "#btn-start", function() {
-		triviaGame.startGame();  
-	});	
 });
 
 
