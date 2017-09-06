@@ -76,7 +76,7 @@ var triviaGame = {
 	    	clearInterval(this.gameTimeout);
 	    	clearTimeout(this.questionTimeout);
 	    	
-	    	// Change game status to "Game Over" and siabled True and False buttons
+	    	// Change game status to "Game Over" and disable True and False buttons
 	    	$("#status").html("Game Over");
   			$("#btn-true").prop('disabled', true);
 	    	$("#btn-false").prop('disabled', true);
@@ -140,7 +140,7 @@ var triviaGame = {
 	    }
   	},		
 
-  	// Disabled True and False buttons
+  	// Disable True and False buttons
   	initGame: function() {
   		$("#btn-true").prop('disabled', true);
 	    $("#btn-false").prop('disabled', true);
